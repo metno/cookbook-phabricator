@@ -1,0 +1,40 @@
+# This file is served by Chef. Your contribution will perish. Resistance is futile!
+
+<% if @vars[:node]['phabricator']['ssl'] %>
+server {
+    listen 80;
+    server_name <%= @vars[:node]['phabricator']['domain'] %>;
+    rewrite ^/(.*)$ https://<%= @vars[:node]['phabricator']['domain'] %>/$1 permanent;
+}
+<% end %>
+
+server {
+    <% if @vars[:node]['phabricator']['ssl'] %>
+    listen 443;
+    ssl on;
+    ssl_certificate <%= @vars[:node]['phabricator']['ssl_cert_path'] %>;
+    ssl_certificate_key <%= @vars[:node]['phabricator']['ssl_key_path'] %>;
+    <% else %>
+    listen 80;
+    <% end %>
+    server_name <%= @vars[:node]['phabricator']['domain'] %>;
+    root <%= @vars[:node]['phabricator']['path'] %>/phabricator/webroot;
+    access_log /var/log/nginx/<%= @vars[:node]['phabricator']['domain'] %>-access.log;
+    error_log /var/log/nginx/<%= @vars[:node]['phabricator']['domain'] %>-error.log;
+    try_files $uri $uri/ /index.php;
+
+    location / {
+        index index.php;
+
+        if (!-f $request_filename) {
+            rewrite ^/(.*)$ /index.php?__path__=/$1 last;
+            break;
+        }
+    }
+
+    location /index.php {
+        fastcgi_pass unix:/var/run/php-fpm-phabricator.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+    }
+}

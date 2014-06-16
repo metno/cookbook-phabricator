@@ -1,0 +1,67 @@
+#!/bin/sh
+# Stolen from https://github.com/rbjavier/puppet-phabricator/blob/master/templates/phd.erb
+# This file is served by Chef. Your contribution will perish. Resistance is futile!
+#
+### BEGIN INIT INFO
+# Provides: phd
+# Required-Start: $remote_fs $syslog
+# Required-Stop: $remote_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Wrapper around phabricator's phd daemon launcher
+### END INIT INFO
+
+DESC="phd daemon launcher"
+NAME=phd
+DAEMON=<%= @node['phabricator']['path'] %>/phabricator/bin/$NAME
+SCRIPTNAME=/etc/init.d/$NAME
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 1
+
+# Load the VERBOSE setting and other rcS variables
+. /lib/init/vars.sh
+
+# Define LSB log_* functions.
+. /lib/lsb/init-functions
+
+RETVAL=0
+case "$1" in
+    start)
+        [ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
+        "$DAEMON" start
+        RETVAL="$?"
+        case "$?" in
+            0) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+            1) [ "$VERBOSE" != no ] && log_end_msg 255 ;; # Already started
+            *) [ "$VERBOSE" != no ] && log_end_msg 1 ;; # Failed to start
+        esac
+        ;;
+    stop)
+        [ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
+        "$DAEMON" stop
+        RETVAL="$?"
+        case "$?" in
+            0) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+            *) [ "$VERBOSE" != no ] && log_end_msg 1 ;; # Failed to stop
+        esac
+        ;;
+    status)
+        "$DAEMON" status && exit 0 || exit $?
+        ;;
+    restart)
+        log_daemon_msg "Restarting $DESC" "$NAME"
+        "$DAEMON" restart
+        RETVAL="$?"
+        case "$?" in
+            0) log_end_msg 0 ;;
+            *) log_end_msg 1 ;; # Failed to restart
+        esac
+        ;;
+    *)
+        echo "Usage: $SCRIPTNAME {start|stop|status|restart}" >&2
+        exit 3
+        ;;
+esac
+
+exit "$RETVAL"
