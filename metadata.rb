@@ -1,11 +1,12 @@
 name                'phabricator'
 maintainer          'MET Norway'
 maintainer_email    'kimtj@met.no'
-license             'BSD'
+license             'GNU GPL 2'
 description         'Installs and configures Phabricator'
 long_description    IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version             '1.0.0'
-supports            'debian', 'ubuntu'
+supports            'debian', '= 7'
+supports            'ubuntu', '= 12.04'
 
 depends             'php',      '1.4.6'
 depends             'php-fpm',  '0.6.8'
