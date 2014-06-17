@@ -192,7 +192,7 @@ execute "run_storage_upgrade" do
 end
 
 service "phd" do
-    action [:enable, :start]
+    action :enable
 end
 
 service "mysql" do
