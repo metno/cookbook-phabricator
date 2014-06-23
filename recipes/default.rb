@@ -48,10 +48,12 @@ end
 # This might happen on Ubuntu systems!
 package 'apache2' do
     action :remove
+    notifies :disable, 'service[apache2]', :immediately
+    notifies :stop, 'service[apache2]', :immediately
 end
 
 service 'apache2' do
-    action [:disable, :stop]
+    action :nothing
 end
 
 include_recipe "php"

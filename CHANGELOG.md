@@ -1,7 +1,10 @@
-phabricator CHANGELOG
+Phabricator CHANGELOG
 =====================
 
-This file is used to list changes made in each version of the phabricator cookbook.
+1.0.1
+-----
+- Use pessimistic versions for cookbook dependencies
+- Only stop and disable Apache2 if it's really installed
 
 1.0.0
 -----
