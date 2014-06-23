@@ -1,6 +1,10 @@
 Phabricator CHANGELOG
 =====================
 
+1.0.2
+-----
+- Fix Debian dependency version in metadata.rb
+
 1.0.1
 -----
 - Use pessimistic versions for cookbook dependencies
