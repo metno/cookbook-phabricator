@@ -1,6 +1,10 @@
 Phabricator CHANGELOG
 =====================
 
+1.0.3
+-----
+- Use https:// instead of git:// as Phabricator source
+
 1.0.2
 -----
 - Fix Debian dependency version in metadata.rb
