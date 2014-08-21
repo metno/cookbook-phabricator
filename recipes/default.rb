@@ -73,13 +73,9 @@ link "/etc/php5/fpm/php.ini" do
     notifies :restart, "service[php-fpm]"
 end
 
-# Phabricator is really picky about this one:
-# By default MySQL will silently ignore some types of errors, which can cause
-# data loss and raise security concerns. Enabling strict mode makes MySQL raise
-# an explicit error instead, and prevents this entire class of problems from
-# doing any damage.
+# Phabricator needs special MySQL configuration.
 template "/etc/mysql/conf.d/phabricator_sql_mode.cnf" do
-    source "phabricator_sql_mode.cnf.erb"
+    source "phabricator.cnf.erb"
     mode "0644"
     owner "root"
     group "root"

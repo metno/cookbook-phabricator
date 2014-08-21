@@ -1,6 +1,10 @@
 Phabricator CHANGELOG
 =====================
 
+1.0.4
+-----
+- Configure MySQL's ft_stopword_file and ft_min_word_len full text features
+
 1.0.3
 -----
 - Use https:// instead of git:// as Phabricator source

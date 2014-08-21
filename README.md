@@ -72,4 +72,4 @@ License and Authors
 -------------------
 This cookbook is licensed under GPL version 2 or (at your option) any later version.
 
-Authors: Kim Tore Jensen <kimtj@met.no>, MET Norway
+Authors: Kim Tore Jensen &lt;kimtj@met.no&gt;, MET Norway
