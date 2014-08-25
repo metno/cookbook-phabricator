@@ -1,6 +1,10 @@
 Phabricator CHANGELOG
 =====================
 
+1.1.0
+-----
+- Implement logrotate.d file for /var/tmp/phd/log/daemons.log et al.
+
 1.0.4
 -----
 - Configure MySQL's ft_stopword_file and ft_min_word_len full text features

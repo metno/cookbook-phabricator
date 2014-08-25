@@ -141,6 +141,13 @@ template "/etc/init.d/phd" do
     notifies :restart, "service[phd]"
 end
 
+template "/etc/logrotate.d/phd" do
+    source "phd-logrotate.erb"
+    user "root"
+    group "root"
+    mode "0644"
+end
+
 template nginx_available_conf do
     source "nginx.erb"
     user "root"
