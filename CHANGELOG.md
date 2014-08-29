@@ -1,6 +1,10 @@
 Phabricator CHANGELOG
 =====================
 
+1.1.1
+-----
+- Automatically configure default 'from' e-mail address (metamta.default-address).
+
 1.1.0
 -----
 - Implement logrotate.d file for /var/tmp/phd/log/daemons.log et al.
