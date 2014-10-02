@@ -1,6 +1,10 @@
 Phabricator CHANGELOG
 =====================
 
+1.1.2
+-----
+- Update cookbook dependencies.
+
 1.1.1
 -----
 - Automatically configure default 'from' e-mail address (metamta.default-address).
