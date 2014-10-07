@@ -34,6 +34,10 @@ default['phabricator']['mysql_password'] = 'changeme'
 # PHP memory limit
 default['phabricator']['php_memory_limit'] = '128M'
 
+# MySQL option innodb_buffer_pool_size
+mem = node['memory']['total'].split("kB")[0].to_i*1024*0.4
+node.default['phabricator']['innodb_buffer_pool_size'] = mem.to_int
+
 # Various config settings, feel free to expand with your own stuff.
 default['phabricator']['config'] = {
     'storage.upload-size-limit' => '128M',

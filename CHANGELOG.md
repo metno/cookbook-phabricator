@@ -1,6 +1,10 @@
 Phabricator CHANGELOG
 =====================
 
+1.2.0
+-----
+- Configure the MySQL innodb_buffer_pool_size variable, default to 40% of total memory.
+
 1.1.2
 -----
 - Update cookbook dependencies.

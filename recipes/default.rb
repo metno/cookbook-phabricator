@@ -15,12 +15,15 @@ node.set['phabricator']['config']['mysql.pass'] = node['phabricator']['mysql_pas
 node.set['phabricator']['config']['repository.default-local-path'] = node['phabricator']['repository_path']
 node.set['phabricator']['config']['phd.user'] = node['phabricator']['user']
 
+# Some default Phabricator settings
 node.default['phabricator']['config']['metamta.domain'] = node['phabricator']['domain']
 node.default['phabricator']['config']['metamta.default-address'] = "#{node['phabricator']['user']}@#{node['phabricator']['domain']}"
 node.default['phabricator']['config']['metamta.reply-handler-domain'] = node['phabricator']['domain']
 
+# Disable nginx default site
 node.default['nginx']['default_site_enabled'] = false
 
+# Default PHP settings
 node.default['php']['directives']['date.timezone'] = 'UTC'
 node.default['php']['directives']['apc.stat'] = 0
 

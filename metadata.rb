@@ -4,7 +4,7 @@ maintainer_email    'kimtj@met.no'
 license             'GNU GPL 2'
 description         'Installs and configures Phabricator'
 long_description    ''
-version             '1.1.2'
+version             '1.2.0'
 
 supports            'debian', '~> 7.0'
 supports            'ubuntu', '= 12.04'
