@@ -1,6 +1,11 @@
 Phabricator CHANGELOG
 =====================
 
+1.3.0
+-----
+- Add the arcanist recipe, for easy setup of arcanist on developer workstations.
+- Remove attributes description from README.md, see attributes/default.rb instead.
+
 1.2.0
 -----
 - Configure the MySQL innodb_buffer_pool_size variable, default to 40% of total memory.

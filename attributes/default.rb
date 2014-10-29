@@ -47,3 +47,7 @@ default['phabricator']['config'] = {
 default['phabricator']['packages'] = [
     'git', 'php5', 'php5-mysql', 'php5-gd', 'php5-dev', 'php5-curl', 'php-apc', 'php5-cli', 'php5-json'
 ]
+
+# Where to put Arcanist when using the arcanist recipe
+default['phabricator']['arcanist']['destination'] = '/usr/local/lib/phabricator'
+default['phabricator']['arcanist']['bin'] = '/usr/local/bin/arc'

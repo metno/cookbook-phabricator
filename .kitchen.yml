@@ -3,7 +3,7 @@ driver:
   name: vagrant
 
 provisioner:
-  name: chef_solo
+  name: chef_zero
 
 platforms:
   - name: ubuntu-12.04
@@ -13,4 +13,8 @@ suites:
   - name: default
     run_list:
       - recipe[phabricator::default]
+    attributes:
+  - name: arcanist
+    run_list:
+      - recipe[phabricator::arcanist]
     attributes:

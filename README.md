@@ -19,27 +19,7 @@ This cookbook has been tested on Ubuntu 12.04 and Debian 7.
 
 Attributes
 ----------
-
-| Key                                           | Type      | Default                   | Description |
-|-----------------------------------------------|-----------|---------------------------|-------------|
-| ['phabricator']['path']                       | String    | /opt/phabricator          | Install path |
-| ['phabricator']['user']                       | String    | phabricator               | Phabricator user |
-| ['phabricator']['group']                      | String    | www-data                  | Phabricator group |
-| ['phabricator']['domain']                     | String    | phabricator.example.com   | FQDN of site |
-| ['phabricator']['revision']['phabricator']    | String    | master                    | Phabricator git revision |
-| ['phabricator']['revision']['arcanist']       | String    | master                    | Arcanist git revision |
-| ['phabricator']['revision']['libphutil']      | String    | master                    | libphutil git revision |
-| ['phabricator']['repository_path']            | String    | /var/repo                 | Source code repository path |
-| ['phabricator']['ssl']                        | Boolean   | false                     | Set to true to use/force HTTPS in nginx |
-| ['phabricator']['ssl_cert_path']              | String    |                           | Path to SSL certificate |
-| ['phabricator']['ssl_key_path']               | String    |                           | Path to SSL key |
-| ['phabricator']['mysql_host']                 | String    | localhost                 | MySQL host |
-| ['phabricator']['mysql_port']                 | String    | 3306                      | MySQL port |
-| ['phabricator']['mysql_user']                 | String    | phabricator               | MySQL user |
-| ['phabricator']['mysql_password']             | String    | changeme                  | MySQL password |
-| ['phabricator']['php_memory_limit']           | String    | '128M'                    | PHP memory limit |
-| ['phabricator']['config']                     | Hash      |                           | Hash with Phabricator configuration |
-| ['phabricator']['packages']                   | Array     |                           | List of packages required |
+See `attributes/default.rb`.
 
 Usage
 -----
