@@ -30,9 +30,15 @@ def load_current_resource
     @current_resource.name(@new_resource.name)
     @current_resource.value(@new_resource.value)
 
-    value = get_config(@new_resource.name)
-    if @new_resource.value == value
-        @current_resource.exists = true
+    # Phabricator config will throw an exception upon retrieving mysql.*
+    # variables when they are not already configured.
+    if /^mysql\..+$/.match(@new_resource.name)
+        @current_resource.exists = false
+    else
+        value = get_config(@new_resource.name)
+        if @new_resource.value == value
+            @current_resource.exists = true
+        end
     end
 end
 

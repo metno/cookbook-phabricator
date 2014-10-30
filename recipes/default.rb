@@ -8,10 +8,6 @@
 #
 
 # Copy some parameters into explicit Phabricator configuration
-node.set['phabricator']['config']['mysql.host'] = node['phabricator']['mysql_host']
-node.set['phabricator']['config']['mysql.port'] = node['phabricator']['mysql_port']
-node.set['phabricator']['config']['mysql.user'] = node['phabricator']['mysql_user']
-node.set['phabricator']['config']['mysql.pass'] = node['phabricator']['mysql_password']
 node.set['phabricator']['config']['repository.default-local-path'] = node['phabricator']['repository_path']
 node.set['phabricator']['config']['phd.user'] = node['phabricator']['user']
 
@@ -180,11 +176,16 @@ mysql_database_user node['phabricator']['mysql_user'] do
     action [:create, :grant]
 end
 
-node['phabricator']['config'].each do |key, value|
-    phabricator_config key do
+# Set the MySQL credentials first of all
+['host', 'port', 'user', 'pass'].each do |key|
+    phabricator_config "mysql.#{key}" do
         action :set
-        value value
-        path node['phabricator']['path']
+        if key == 'pass'
+            value node["phabricator"]["mysql_password"]
+        else
+            value node["phabricator"]["mysql_#{key}"]
+        end
+        path node["phabricator"]["path"]
     end
 end
 
@@ -201,6 +202,14 @@ end
 execute "run_storage_upgrade" do
     command "#{node['phabricator']['path']}/phabricator/bin/storage upgrade --force"
     action :nothing
+end
+
+node['phabricator']['config'].each do |key, value|
+    phabricator_config key do
+        action :set
+        value value
+        path node['phabricator']['path']
+    end
 end
 
 service "phd" do
