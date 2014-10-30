@@ -10,7 +10,7 @@ default['phabricator']['user'] = 'phabricator'
 default['phabricator']['group'] = 'www-data'
 
 # FQDN that will host Phabricator
-default['phabricator']['domain'] = 'phabricator.example.com'
+default['phabricator']['domain'] = node[:fqdn]
 
 # Git revisions to check out, use 'master' for bleeding edge
 default['phabricator']['revision']['phabricator'] = 'master'
