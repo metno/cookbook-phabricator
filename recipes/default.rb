@@ -191,7 +191,11 @@ end
 
 execute "upgrade_phabricator_databases" do
     command "true"
-    action :nothing
+    if node['phabricator']['storage_upgrade_done']
+        action :nothing
+    else
+        action :run
+    end
     notifies :stop, "service[php-fpm]", :immediately
     notifies :stop, "service[phd]", :immediately
     notifies :run, "execute[run_storage_upgrade]", :immediately
@@ -219,3 +223,5 @@ end
 service "mysql" do
     action [:enable, :start]
 end
+
+node.set['phabricator']['storage_upgrade_done'] = true

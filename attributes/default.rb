@@ -34,6 +34,9 @@ default['phabricator']['mysql_password'] = 'changeme'
 # PHP memory limit
 default['phabricator']['php_memory_limit'] = '128M'
 
+# Initial storage upgrade has been done
+default['phabricator']['storage_upgrade_done'] = false
+
 # MySQL option innodb_buffer_pool_size
 mem = node['memory']['total'].split("kB")[0].to_i*1024*0.4
 node.default['phabricator']['innodb_buffer_pool_size'] = mem.to_int
