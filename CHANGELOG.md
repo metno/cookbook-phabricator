@@ -1,6 +1,15 @@
 Phabricator CHANGELOG
 =====================
 
+1.4.0
+-----
+- Try to remove both apache2 and apache2.2 packages.
+- Add a simple test suite to the default Kitchen environment.
+- Make sure that the storage upgrade function is run at least once before trying to configure anything.
+- Always make sure that the mysql variables are configured first, and never query them from phabricator/bin/config lest they throw an error.
+- Default installation domain to node[:fqdn]
+- Always make sure the package list is up to date, using the apt cookbook.
+
 1.3.0
 -----
 - Add the arcanist recipe, for easy setup of arcanist on developer workstations.
