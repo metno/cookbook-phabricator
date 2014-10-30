@@ -49,10 +49,12 @@ end
 
 # In case Apache2 is automatically installed, remove it.
 # This might happen on Ubuntu systems!
-package 'apache2' do
-    action :remove
-    notifies :disable, 'service[apache2]', :immediately
-    notifies :stop, 'service[apache2]', :immediately
+['apache2', 'apache2.2'].each do |pkg|
+    package pkg do
+        action :remove
+        notifies :disable, 'service[apache2]', :immediately
+        notifies :stop, 'service[apache2]', :immediately
+    end
 end
 
 service 'apache2' do
