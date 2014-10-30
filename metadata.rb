@@ -9,6 +9,7 @@ version             '1.3.0'
 supports            'debian', '~> 7.0'
 supports            'ubuntu', '= 12.04'
 
+depends             'apt',      '~> 2.6'
 depends             'php',      '~> 1.4'
 depends             'php-fpm',  '~> 0.6'
 depends             'nginx',    '~> 2.7'

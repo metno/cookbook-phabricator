@@ -42,6 +42,9 @@ mysql_connection = {
     :password => node['mysql']['server_root_password']
 }
 
+# Make sure the package list is up to date
+include_recipe 'apt'
+
 node['phabricator']['packages'].each do |p|
     package p do
         action :upgrade
