@@ -1,0 +1,67 @@
+#!/bin/sh
+# Stolen from https://github.com/rbjavier/puppet-phabricator/blob/master/templates/phd.erb
+# This file is served by Chef. Your contribution will perish. Resistance is futile!
+#
+### BEGIN INIT INFO
+# Provides: phd
+# Required-Start: $remote_fs $syslog
+# Required-Stop: $remote_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Wrapper around phabricator's phd daemon launcher
+### END INIT INFO
+
+DESC="phd daemon launcher"
+NAME=phd
+DAEMON=<%= @node['phabricator']['path'] %>/phabricator/bin/$NAME
+SCRIPTNAME=/etc/init.d/$NAME
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 1
+
+# Load the VERBOSE setting and other rcS variables
+. /etc/init.d/functions
+
+# Define LSB log_* functions.
+. /lib/lsb/init-functions
+
+RETVAL=0
+case "$1" in
+    start)
+        [ "$VERBOSE" != no ] && echo "Starting $DESC" "$NAME"
+        runuser -l <%= @node['phabricator']['user'] %> -c "$DAEMON start"
+        RETVAL="$?"
+        case "$?" in
+            0) [ "$VERBOSE" != no ] && log_success_msg 0 ;;
+            1) [ "$VERBOSE" != no ] && log_failure_msg 255 ;; # Already started
+            *) [ "$VERBOSE" != no ] && log_failure_msg 1 ;; # Failed to start
+        esac
+        ;;
+    stop)
+        [ "$VERBOSE" != no ] && log_success_msg "Stopping $DESC" "$NAME"
+        runuser -l <%= @node['phabricator']['user'] %> -c "$DAEMON stop"
+        RETVAL="$?"
+        case "$?" in
+            0) [ "$VERBOSE" != no ] && log_success_msg 0 ;;
+            *) [ "$VERBOSE" != no ] && log_failure_msg 1 ;; # Failed to stop
+        esac
+        ;;
+    status)
+        runuser -l <%= @node['phabricator']['user'] %> -c "$DAEMON status && exit 0 || exit $?"
+        ;;
+    restart)
+        echo "Restarting $DESC" "$NAME"
+        runuser -l <%= @node['phabricator']['user'] %> -c "$DAEMON restart"
+        RETVAL="$?"
+        case "$?" in
+            0) log_success_msg 0 ;;
+            *) log_failure_msg 1 ;; # Failed to restart
+        esac
+        ;;
+    *)
+        echo "Usage: $SCRIPTNAME {start|stop|status|restart}" >&2
+        exit 3
+        ;;
+esac
+
+exit "$RETVAL"

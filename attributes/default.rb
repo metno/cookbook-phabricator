@@ -7,7 +7,13 @@ default['phabricator']['path'] = '/opt/phabricator'
 
 # Which user and group will Phabricator run as?
 default['phabricator']['user'] = 'phabricator'
-default['phabricator']['group'] = 'www-data'
+
+case node["platform_family"]
+when "debian"
+    default['phabricator']['group'] = 'www-data'
+when "rhel"
+    default['phabricator']['group'] = 'nginx'
+end
 
 # FQDN that will host Phabricator
 default['phabricator']['domain'] = node[:fqdn]
@@ -47,9 +53,16 @@ default['phabricator']['config'] = {
 }
 
 # Package dependencies
-default['phabricator']['packages'] = [
-    'git', 'php5', 'php5-mysql', 'php5-gd', 'php5-dev', 'php5-curl', 'php-apc', 'php5-cli', 'php5-json'
-]
+case node["platform_family"]
+when "debian"
+    default['phabricator']['packages'] = [
+        'git', 'php5', 'php5-mysql', 'php5-gd', 'php5-dev', 'php5-curl', 'php-apc', 'php5-cli', 'php5-json'
+    ]
+when "rhel"
+    default['phabricator']['packages'] = [
+        'git', 'php', 'php-mysql', 'php-gd', 'php-devel', 'php-pear-Net-Curl', 'php-pecl-apc', 'php-cli', 'php-ldap', 'php-process', 'php-mbstring', 'redhat-lsb'
+    ]
+end
 
 # Where to put Arcanist when using the arcanist recipe
 default['phabricator']['arcanist']['destination'] = '/usr/local/lib/phabricator'

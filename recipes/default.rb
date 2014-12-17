@@ -39,7 +39,12 @@ mysql_connection = {
 }
 
 # Make sure the package list is up to date
-include_recipe 'apt'
+case node["platform_family"]
+when "debian"
+    include_recipe 'apt'
+when "rhel"
+    include_recipe 'yum'
+end
 
 node['phabricator']['packages'].each do |p|
     package p do
@@ -72,10 +77,13 @@ include_recipe "database::mysql"
 # be linked to manually.
 #
 # FIXME: this should definately be fixed in the php cookbook.
-link "/etc/php5/fpm/php.ini" do
-    to "../cli/php.ini"
-    action :create
-    notifies :restart, "service[php-fpm]"
+case node["platform_family"]
+when "debian"
+    link "/etc/php5/fpm/php.ini" do
+        to "../cli/php.ini"
+        action :create
+        notifies :restart, "service[php-fpm]"
+    end
 end
 
 # Phabricator needs special MySQL configuration.
@@ -135,15 +143,32 @@ php_fpm_pool "phabricator" do
     php_options 'php_admin_flag[log_errors]' => 'on', 'php_admin_value[memory_limit]' => node['phabricator']['php_memory_limit']
 end
 
-template "/etc/init.d/phd" do
-    source "phd.erb"
-    user "root"
-    group "root"
-    mode "0755"
-    variables :vars => {
-        :node => node
-    }
-    notifies :restart, "service[phd]"
+case node["platform_family"]
+when "debian"
+    template "/etc/init.d/phd" do
+      source "phd.debian-init.erb"
+      user "root"
+      group "root"
+      mode "0755"
+      variables :vars => {
+          :node => node
+      }
+      notifies :restart, "service[phd]"
+    end
+when "rhel"
+    package "redhat-lsb" do
+      action :install
+    end
+    template "/etc/init.d/phd" do
+      source "phd.rhel-init.erb"
+      user "root"
+      group "root"
+      mode "0755"
+      variables :vars => {
+          :node => node
+      }
+      notifies :restart, "service[phd]"
+    end
 end
 
 template "/etc/logrotate.d/phd" do
@@ -153,10 +178,21 @@ template "/etc/logrotate.d/phd" do
     mode "0644"
 end
 
+case node["platform_family"]
+when "rhel"
+    cookbook_file "/etc/nginx/fastcgi_params" do
+        source   "fastcgi_params"
+        owner    "root"
+        group    "root"
+        mode     "0644"
+        notifies :reload, "service[nginx]"
+    end
+end
+
 template nginx_available_conf do
     source "nginx.erb"
     user "root"
-    group "www-data"
+    group node['phabricator']['group']
     mode "0640"
     variables :vars => {
         :node => node
@@ -223,7 +259,11 @@ service "phd" do
 end
 
 service "mysql" do
-    action [:enable, :start]
+    case node["platform_family"]
+    when "rhel"
+      service_name "mysqld"
+    end
+      action [:enable, :start]
 end
 
 node.set['phabricator']['storage_upgrade_done'] = true

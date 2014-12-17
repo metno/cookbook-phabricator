@@ -1,6 +1,10 @@
 Phabricator CHANGELOG
 =====================
 
+1.5.0
+-----
+- Add centos/rhel support (Fedora not tested)
+
 1.4.0
 -----
 - Try to remove both apache2 and apache2.2 packages.
