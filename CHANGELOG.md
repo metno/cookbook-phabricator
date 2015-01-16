@@ -1,6 +1,10 @@
 Phabricator CHANGELOG
 =====================
 
+1.4.1
+-----
+- Use AND as the default operator for MySQL based fulltext search
+
 1.4.0
 -----
 - Try to remove both apache2 and apache2.2 packages.
