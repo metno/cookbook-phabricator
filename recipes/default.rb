@@ -110,7 +110,7 @@ end
     git "#{node['phabricator']['path']}/#{repo}" do
         user node['phabricator']['user']
         group node['phabricator']['group']
-        repository "https://github.com/facebook/#{repo}.git"
+        repository "https://github.com/phacility/#{repo}.git"
         revision node['phabricator']['revision'][repo]
         action :sync
         notifies :run, "execute[upgrade_phabricator_databases]"
