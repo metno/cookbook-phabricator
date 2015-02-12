@@ -24,6 +24,7 @@ default['phabricator']['repository_path'] = '/var/repo'
 default['phabricator']['ssl'] = false
 default['phabricator']['ssl_cert_path'] = ''
 default['phabricator']['ssl_key_path'] = ''
+default['phabricator']['ssl_protocols'] = ['TLSv1', 'TLSv1.1', 'TLSv1.2']
 
 # MySQL credentials
 default['phabricator']['mysql_host'] = 'localhost'

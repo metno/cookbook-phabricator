@@ -14,6 +14,7 @@ server {
     ssl on;
     ssl_certificate <%= @vars[:node]['phabricator']['ssl_cert_path'] %>;
     ssl_certificate_key <%= @vars[:node]['phabricator']['ssl_key_path'] %>;
+    ssl_protocols <%= node['phabricator']['ssl_protocols'].join(' ') %>;
     <% else %>
     listen 80;
     <% end %>
