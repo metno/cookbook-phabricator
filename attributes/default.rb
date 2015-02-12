@@ -48,11 +48,13 @@ default['phabricator']['innodb_buffer_pool_size'] = mem.to_int
 # Various config settings, feel free to expand with your own stuff.
 default['phabricator']['config'] = {
     'storage.upload-size-limit' => '128M',
+    'pygments.enabled' => 'true',
 }
 
 # Package dependencies
 default['phabricator']['packages'] = [
-    'curl', 'git', 'php5', 'php5-mysql', 'php5-gd', 'php5-dev', 'php5-curl', 'php-apc', 'php5-cli', 'php5-json'
+    'curl', 'git', 'php5', 'php5-mysql', 'php5-gd', 'php5-dev', 'php5-curl',
+    'php-apc', 'php5-cli', 'php5-json', 'python-pygments',
 ]
 
 # Where to put Arcanist when using the arcanist recipe
