@@ -7,13 +7,16 @@ provisioner:
 
 platforms:
   - name: ubuntu-12.04
-  - name: debian-7.3
 
 suites:
   - name: default
     run_list:
       - recipe[phabricator::default]
-    attributes:
+    attributes: {
+        "phabricator": {
+            "domain": "phabricator.example.com"
+        }
+    }
   - name: arcanist
     run_list:
       - recipe[phabricator::arcanist]

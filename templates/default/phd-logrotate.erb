@@ -8,9 +8,9 @@
     create 640 <%= node['phabricator']['user'] %> <%= node['phabricator']['group'] %>
     sharedscripts
     prerotate
-        /etc/init.d/phd stop >/dev/null
+        service phd stop >/dev/null
     endscript
     postrotate
-        /etc/init.d/phd start >/dev/null
+        service phd start >/dev/null
     endscript
 }

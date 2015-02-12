@@ -11,8 +11,13 @@
     [ $status -eq 0 ]
 }
 
+@test "Phabricator daemons are running" {
+    run service phd status
+    [ $status -eq 0 ]
+}
+
 @test "Phabricator responds to HTTP requests" {
-    wget -O - http://localhost | {
+    curl http://localhost | {
         run grep Phabricator
         [ $status -eq 0 ]
     }

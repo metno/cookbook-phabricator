@@ -1,6 +1,23 @@
 Phabricator CHANGELOG
 =====================
 
+2.0.0
+-----
+Upgrading from 1.4 to 2.0:
+- Set `node['mysql']['version']` to the desired version of MySQL server. The default is `5.5`.
+- The MySQL password is now read from the run-time variable `node.run_state['mysql_root_password']`.
+- Remove the init script `/etc/init.d/phd` from your system.
+- Make sure the `mysql` upstart job does not automatically start, it has been replaced with the `mysql-default` job.
+
+Changes in 2.0.0:
+- Upgrade to MySQL cookbook ~> 6.0
+- Upgrade to PHP cookbook ~> 1.5
+- Upgrade to PHP-FPM cookbook ~> 0.7
+- Upgrade to Database cookbook ~> 3.1
+- MySQL server is now set up using the `mysql_service` LWRP, and has changed name to `mysql_service[default]`.
+- The init script `/etc/init.d/phd` has been replaced with an upstart job in `/etc/init/phd`.
+- The Debian platform is no longer supported.
+
 1.4.1
 -----
 - Use AND as the default operator for MySQL based fulltext search

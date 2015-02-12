@@ -1,0 +1,32 @@
+#
+# This file is served by Chef. Your contribution will perish. Resistance is futile!
+#
+
+description     "Phabricator daemon"
+author          "chef-client"
+
+start on started mysql-default
+stop on stopping mysql-default
+
+setuid <%= node['phabricator']['user'] %>
+setgid <%= node['phabricator']['group'] %>
+
+respawn
+
+#
+# Phabricator has its own daemon process manager. This script, in addition to
+# the pre-start and post-stop scripts, are hacks that circumvent this.
+#
+script
+    while [ "$(ls -A /var/tmp/phd/pid)" ]; do
+        sleep 1
+    done
+end script
+
+pre-start script
+    <%= node['phabricator']['path'] %>/phabricator/bin/phd start
+end script
+
+post-stop script
+    <%= node['phabricator']['path'] %>/phabricator/bin/phd stop
+end script

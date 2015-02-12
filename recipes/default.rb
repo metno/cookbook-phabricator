@@ -8,8 +8,8 @@
 #
 
 # Copy some parameters into explicit Phabricator configuration
-node.set['phabricator']['config']['repository.default-local-path'] = node['phabricator']['repository_path']
-node.set['phabricator']['config']['phd.user'] = node['phabricator']['user']
+node.default['phabricator']['config']['repository.default-local-path'] = node['phabricator']['repository_path']
+node.default['phabricator']['config']['phd.user'] = node['phabricator']['user']
 
 # Some default Phabricator settings
 node.default['phabricator']['config']['metamta.domain'] = node['phabricator']['domain']
@@ -32,15 +32,31 @@ end
 nginx_available_conf = "/etc/nginx/sites-available/#{node['phabricator']['domain']}.conf" 
 nginx_enabled_conf = "/etc/nginx/sites-enabled/#{node['phabricator']['domain']}.conf" 
 
-mysql_connection = {
-    :host => 'localhost',
-    :user => 'root',
-    :password => node['mysql']['server_root_password']
-}
-
 # Make sure the package list is up to date
 include_recipe 'apt'
 
+# Make sure MySQL has a default root password
+if not node.run_state.has_key?('mysql_root_password') then
+    Chef::Log.warn("****** Your MySQL password is set to an insecure default value, please modify it using `node.run_state['mysql_root_password']`! ******")
+    node.run_state['mysql_root_password'] = 'pleaserootmydatabase'
+end
+
+# Set up a MySQL server
+mysql_service 'default' do
+    initial_root_password node.run_state['mysql_root_password']
+    version node['mysql']['version']
+    action [:create, :start]
+end
+
+# Define MySQL connection credentials
+mysql_connection = {
+    :host => '127.0.0.1',
+    :port => 3306,
+    :user => 'root',
+    :password => node.run_state['mysql_root_password']
+}
+
+# Install required packages for Phabricator
 node['phabricator']['packages'].each do |p|
     package p do
         action :upgrade
@@ -64,7 +80,6 @@ end
 include_recipe "php"
 include_recipe "php-fpm"
 include_recipe "nginx"
-include_recipe "mysql::server"
 include_recipe "database::mysql"
 
 # Unfortunately, the PHP-FPM recipe does not have any concept of how to
@@ -84,7 +99,7 @@ template "/etc/mysql/conf.d/phabricator_sql_mode.cnf" do
     mode "0644"
     owner "root"
     group "root"
-    notifies :restart, "service[mysql]"
+    notifies :restart, "mysql_service[default]"
 end
 
 group node['phabricator']['group'] do
@@ -135,15 +150,11 @@ php_fpm_pool "phabricator" do
     php_options 'php_admin_flag[log_errors]' => 'on', 'php_admin_value[memory_limit]' => node['phabricator']['php_memory_limit']
 end
 
-template "/etc/init.d/phd" do
-    source "phd.erb"
-    user "root"
-    group "root"
-    mode "0755"
-    variables :vars => {
-        :node => node
-    }
-    notifies :restart, "service[phd]"
+template '/etc/init/phd.conf' do
+    source 'upstart/phd.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
 end
 
 template "/etc/logrotate.d/phd" do
@@ -201,12 +212,15 @@ execute "upgrade_phabricator_databases" do
     notifies :stop, "service[php-fpm]", :immediately
     notifies :stop, "service[phd]", :immediately
     notifies :run, "execute[run_storage_upgrade]", :immediately
-    notifies :start, "service[phd]", :immediately
+    # phd daemon omitted because it is defined as a service
+    # that will start anyway
     notifies :start, "service[php-fpm]", :immediately
 end
 
 execute "run_storage_upgrade" do
     command "#{node['phabricator']['path']}/phabricator/bin/storage upgrade --force"
+    user node['phabricator']['user']
+    group node['phabricator']['group']
     action :nothing
 end
 
@@ -218,12 +232,14 @@ node['phabricator']['config'].each do |key, value|
     end
 end
 
-service "phd" do
-    action :enable
-end
-
-service "mysql" do
+service 'phd' do
+    supports :status => true, :restart => true, :start => true, :stop => true
+    provider Chef::Provider::Service::Upstart
     action [:enable, :start]
 end
 
-node.set['phabricator']['storage_upgrade_done'] = true
+ruby_block 'set_storage_upgrade_done' do
+    block do
+        node.set['phabricator']['storage_upgrade_done'] = true
+    end
+end
