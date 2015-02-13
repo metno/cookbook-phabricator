@@ -6,8 +6,8 @@ description         'Installs and configures Phabricator'
 long_description    ''
 version             '1.4.1'
 
-supports            'debian', '~> 7.0'
 supports            'ubuntu', '= 12.04'
+supports            'ubuntu', '= 14.04'
 
 depends             'apt',      '~> 2.6'
 depends             'php',      '~> 1.5'

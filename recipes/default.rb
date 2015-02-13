@@ -56,31 +56,18 @@ mysql_connection = {
     :password => node.run_state['mysql_root_password']
 }
 
+# Include needed recipes
+include_recipe "nginx"
+include_recipe "php"
+include_recipe "php-fpm"
+include_recipe "database::mysql"
+
 # Install required packages for Phabricator
 node['phabricator']['packages'].each do |p|
     package p do
         action :upgrade
     end
 end
-
-# In case Apache2 is automatically installed, remove it.
-# This might happen on Ubuntu systems!
-['apache2', 'apache2.2'].each do |pkg|
-    package pkg do
-        action :remove
-        notifies :disable, 'service[apache2]', :immediately
-        notifies :stop, 'service[apache2]', :immediately
-    end
-end
-
-service 'apache2' do
-    action :nothing
-end
-
-include_recipe "php"
-include_recipe "php-fpm"
-include_recipe "nginx"
-include_recipe "database::mysql"
 
 # Unfortunately, the PHP-FPM recipe does not have any concept of how to
 # actually configure the PHP-FPM configuration file itself [sic] - it needs to

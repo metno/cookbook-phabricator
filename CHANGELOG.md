@@ -14,6 +14,7 @@ Changes in 2.0.0:
 - Upgrade to PHP cookbook ~> 1.5
 - Upgrade to PHP-FPM cookbook ~> 0.7
 - Upgrade to Database cookbook ~> 3.1
+- Support Ubuntu 14.04.
 - MySQL server is now set up using the `mysql_service` LWRP, and has changed name to `mysql_service[default]`.
 - The init script `/etc/init.d/phd` has been replaced with an upstart job in `/etc/init/phd`.
 - The Debian platform is no longer supported.
