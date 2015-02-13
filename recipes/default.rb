@@ -81,12 +81,11 @@ link "/etc/php5/fpm/php.ini" do
 end
 
 # Phabricator needs special MySQL configuration.
-template "/etc/mysql/conf.d/phabricator_sql_mode.cnf" do
-    source "phabricator.cnf.erb"
-    mode "0644"
-    owner "root"
-    group "root"
-    notifies :restart, "mysql_service[default]"
+mysql_config 'phabricator' do
+    source 'phabricator.cnf.erb'
+    instance 'default'
+    action :create
+    notifies :restart, 'mysql_service[default]'
 end
 
 group node['phabricator']['group'] do

@@ -8,6 +8,7 @@ Upgrading from 1.4 to 2.0:
 - The MySQL password is now read from the run-time variable `node.run_state['mysql_root_password']`.
 - Remove the init script `/etc/init.d/phd` from your system.
 - Make sure the `mysql` upstart job does not automatically start, it has been replaced with the `mysql-default` job.
+- Delete the `/etc/mysql/conf.d/phabricator.cnf` file.
 
 Changes in 2.0.0:
 - Upgrade to MySQL cookbook ~> 6.0
