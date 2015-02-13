@@ -29,8 +29,8 @@ else
     node.default['phabricator']['config']['phabricator.base-uri'] = "http://#{node['phabricator']['domain']}/"
 end
 
-nginx_available_conf = "/etc/nginx/sites-available/#{node['phabricator']['domain']}.conf" 
-nginx_enabled_conf = "/etc/nginx/sites-enabled/#{node['phabricator']['domain']}.conf" 
+nginx_available_conf = "/etc/nginx/sites-available/#{node['phabricator']['domain']}.conf"
+nginx_enabled_conf = "/etc/nginx/sites-enabled/#{node['phabricator']['domain']}.conf"
 
 # Make sure the package list is up to date
 include_recipe 'apt'
@@ -73,7 +73,7 @@ end
 # actually configure the PHP-FPM configuration file itself [sic] - it needs to
 # be linked to manually.
 #
-# FIXME: this should definately be fixed in the php cookbook.
+# FIXME: this should definitely be fixed in the php cookbook.
 link "/etc/php5/fpm/php.ini" do
     to "../cli/php.ini"
     action :create
@@ -156,16 +156,13 @@ template nginx_available_conf do
     user "root"
     group "www-data"
     mode "0640"
-    variables :vars => {
-        :node => node
-    }
-    notifies :restart, "service[nginx]"
+    notifies :reload, "service[nginx]"
 end
 
 link nginx_enabled_conf do
     to nginx_available_conf
     action :create
-    notifies :restart, "service[nginx]"
+    notifies :reload, "service[nginx]"
 end
 
 mysql_database_user node['phabricator']['mysql_user'] do

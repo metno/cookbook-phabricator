@@ -13,7 +13,7 @@ package 'php5-cli'
 package 'php5-curl'
 package 'git'
 
-directory "#{node['phabricator']['arcanist']['destination']}" do
+directory node['phabricator']['arcanist']['destination'] do
     action :create
     recursive true
     owner 'root'
@@ -33,6 +33,6 @@ git "#{node['phabricator']['arcanist']['destination']}/arcanist" do
     action :sync
 end
 
-link "#{node['phabricator']['arcanist']['bin']}" do
+link node['phabricator']['arcanist']['bin'] do
     to "#{node['phabricator']['arcanist']['destination']}/arcanist/bin/arc"
 end

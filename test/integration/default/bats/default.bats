@@ -2,12 +2,12 @@
 # vi: se ft=sh:
 
 @test "nginx is running" {
-    run /etc/init.d/nginx status
+    run service nginx status
     [ $status -eq 0 ]
 }
 
 @test "MySQL is running" {
-    run /etc/init.d/mysql status
+    run service mysql-default status
     [ $status -eq 0 ]
 }
 
