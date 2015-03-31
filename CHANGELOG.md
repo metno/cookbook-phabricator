@@ -3,6 +3,7 @@ Phabricator CHANGELOG
 
 Git master
 ----------
+- Default PHP option `post_max_size` to '32M'
 - Set MySQL max_allowed_packet to 32M
 
 2.0.1

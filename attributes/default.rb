@@ -35,8 +35,9 @@ default['phabricator']['mysql_password'] = 'changeme'
 # MySQL version
 default['mysql']['version'] = '5.5'
 
-# PHP memory limit
+# PHP settings
 default['phabricator']['php_memory_limit'] = '128M'
+default['php']['directives']['post_max_size'] = '32M'
 
 # Initial storage upgrade has been done
 default['phabricator']['storage_upgrade_done'] = false
