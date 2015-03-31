@@ -1,6 +1,10 @@
 Phabricator CHANGELOG
 =====================
 
+Git master
+----------
+- Set MySQL max_allowed_packet to 32M
+
 2.0.1
 -----
 - Remove obsolete parameter `storage.upload-size-limit`

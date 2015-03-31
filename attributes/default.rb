@@ -45,6 +45,9 @@ default['phabricator']['storage_upgrade_done'] = false
 mem = node['memory']['total'].split("kB")[0].to_i*1024*0.4
 default['phabricator']['innodb_buffer_pool_size'] = mem.to_int
 
+# MySQL options
+default['phabricator']['mysql']['max_allowed_packet'] = 32*1024*1024
+
 # Various config settings, feel free to expand with your own stuff.
 default['phabricator']['config'] = {
     'pygments.enabled' => 'true',
