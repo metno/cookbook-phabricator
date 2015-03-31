@@ -1,6 +1,10 @@
 Phabricator CHANGELOG
 =====================
 
+2.0.1
+-----
+- Remove obsolete parameter `storage.upload-size-limit`
+
 2.0.0
 -----
 Upgrading from 1.4 to 2.0:
