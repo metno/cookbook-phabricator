@@ -5,6 +5,7 @@ Git master
 ----------
 - Default PHP option `post_max_size` to '32M'
 - Set MySQL max_allowed_packet to 32M
+- Add large file store support through config option `storage.local-disk.path`
 
 2.0.1
 -----

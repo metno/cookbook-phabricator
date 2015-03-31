@@ -19,6 +19,7 @@ server {
     listen 80;
     <% end %>
     server_name <%= node['phabricator']['domain'] %>;
+    client_max_body_size 0;
     root <%= node['phabricator']['path'] %>/phabricator/webroot;
     access_log /var/log/nginx/<%= node['phabricator']['domain'] %>-access.log;
     error_log /var/log/nginx/<%= node['phabricator']['domain'] %>-error.log;

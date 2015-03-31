@@ -20,6 +20,10 @@ default['phabricator']['revision']['libphutil'] = 'master'
 # Where to put source code repositories, both hosted and external
 default['phabricator']['repository_path'] = '/var/repo'
 
+# Set up file storage and support for large files.
+# Files larger than `storage.mysql-engine.max-size` will be stored in this directory.
+default['phabricator']['file_storage_path'] = "#{node['phabricator']['path']}/filestore"
+
 # Set 'ssl' to true if you want to use SSL, and provide the paths.
 default['phabricator']['ssl'] = false
 default['phabricator']['ssl_cert_path'] = ''
