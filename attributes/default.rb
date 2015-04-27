@@ -42,6 +42,8 @@ default['mysql']['version'] = '5.5'
 # PHP settings
 default['phabricator']['php_memory_limit'] = '128M'
 default['php']['directives']['post_max_size'] = '32M'
+default['php']['directives']['apc.write_lock'] = true
+default['php']['directives']['apc.slam_defense'] = false
 
 # Initial storage upgrade has been done
 default['phabricator']['storage_upgrade_done'] = false
