@@ -1,6 +1,11 @@
 Phabricator CHANGELOG
 =====================
 
+2.2.0
+-----
+- Set PHP directive `apc.write_lock` to `true`
+- Set PHP directive `apc.slam_defense` to `false`
+
 2.1.0
 -----
 - Default PHP option `post_max_size` to '32M'
