@@ -20,10 +20,6 @@ node.default['phabricator']['config']['metamta.reply-handler-domain'] = node['ph
 # Disable nginx default site
 node.default['nginx']['default_site_enabled'] = false
 
-# Default PHP settings
-node.default['php']['directives']['date.timezone'] = 'UTC'
-node.default['php']['directives']['apc.stat'] = 0
-
 if node['phabricator']['ssl']
     node.default['phabricator']['config']['phabricator.base-uri'] = "https://#{node['phabricator']['domain']}/"
 else
@@ -68,17 +64,6 @@ node['phabricator']['packages'].each do |p|
     package p do
         action :upgrade
     end
-end
-
-# Unfortunately, the PHP-FPM recipe does not have any concept of how to
-# actually configure the PHP-FPM configuration file itself [sic] - it needs to
-# be linked to manually.
-#
-# FIXME: this should definitely be fixed in the php cookbook.
-link "/etc/php5/fpm/php.ini" do
-    to "../cli/php.ini"
-    action :create
-    notifies :restart, "service[php-fpm]"
 end
 
 # Phabricator needs special MySQL configuration.
@@ -142,7 +127,7 @@ php_fpm_pool "phabricator" do
     listen_owner node['phabricator']['user']
     listen_group node['phabricator']['group']
     listen_mode "0660"
-    php_options 'php_admin_flag[log_errors]' => 'on', 'php_admin_value[memory_limit]' => node['phabricator']['php_memory_limit']
+    php_options node['phabricator']['php']['options']
 end
 
 template '/etc/init/phd.conf' do

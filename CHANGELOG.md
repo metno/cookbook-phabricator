@@ -1,6 +1,10 @@
 Phabricator CHANGELOG
 =====================
 
+NEXT
+----
+- Consolidate PHP configuration into a single variable, really setting boolean variables
+
 2.2.0
 -----
 - Set PHP directive `apc.write_lock` to `true`

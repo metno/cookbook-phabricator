@@ -40,10 +40,16 @@ default['phabricator']['mysql_password'] = 'changeme'
 default['mysql']['version'] = '5.5'
 
 # PHP settings
-default['phabricator']['php_memory_limit'] = '128M'
-default['php']['directives']['post_max_size'] = '32M'
-default['php']['directives']['apc.write_lock'] = true
-default['php']['directives']['apc.slam_defense'] = false
+default['phabricator']['php']['options'] = {
+    'php_admin_value[date.timezone]' => 'UTC',
+    'php_admin_value[post_max_size]' => '32M',
+    'php_admin_value[upload_max_filesize]' => '32M',
+    'php_admin_value[memory_limit]' => '128M',
+    'php_admin_flag[apc.stat]' => 'off',
+    'php_admin_flag[apc.write_lock]' => 'on',
+    'php_admin_flag[apc.slam_defense]' => 'off',
+    'php_admin_flag[log_errors]' => 'on',
+}
 
 # Initial storage upgrade has been done
 default['phabricator']['storage_upgrade_done'] = false
