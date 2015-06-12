@@ -25,6 +25,7 @@ end script
 
 pre-start script
     <%= node['phabricator']['path'] %>/phabricator/bin/phd start
+    sleep 2
 end script
 
 post-stop script
