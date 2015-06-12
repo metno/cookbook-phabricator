@@ -8,14 +8,15 @@ database user, and migrates the Phabricator databases.
 
 Requirements
 ------------
-This cookbook has been tested on Ubuntu 12.04 and Debian 7.
+This cookbook has been tested on Ubuntu 12.04 and 14.04.
 
 #### Cookbooks
-- `php` == 1.4.6
-- `php-fpm` == 0.6.8
-- `nginx` == 2.7.4
-- `mysql` == 5.3.0
-- `database` == 2.2.0
+- `apt ~> 2.6`
+- `php ~> 1.5`
+- `php-fpm ~> 0.7`
+- `nginx ~> 2.7`
+- `mysql ~> 6.0`
+- `database ~> 3.1`
 
 Attributes
 ----------
