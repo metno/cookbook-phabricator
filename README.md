@@ -36,9 +36,17 @@ Just include `phabricator` in your node's `run_list`:
 }
 ```
 
+###### MySQL Installation
+
+If node['phabricator]['mysql_host'] is set to `localhost` then the cookbook
+will also install and configure the mysql server appropriately.
+
+Otherwise setting to a remote host (e.g. Amazon RDS) will configure phabricator
+to connect to that.
+
 Bugs
 ----
-It's not yet possible to use an external MySQL server, but feel free to submit patches.
+
 
 Contributing
 ------------
