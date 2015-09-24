@@ -24,7 +24,6 @@ See `attributes/default.rb`.
 
 Usage
 -----
-#### phabricator::default
 Just include `phabricator` in your node's `run_list`:
 
 ```json
@@ -36,17 +35,13 @@ Just include `phabricator` in your node's `run_list`:
 }
 ```
 
-###### MySQL Installation
+MySQL Installation
+------------------
 
-If node['phabricator]['mysql_host'] is set to `localhost` then the cookbook
-will also install and configure the mysql server appropriately.
-
-Otherwise setting to a remote host (e.g. Amazon RDS) will configure phabricator
-to connect to that.
-
-Bugs
-----
-
+If `node['phabricator]['mysql_host']` is set to `localhost`, the cookbook will
+install and configure the MySQL server appropriately. Otherwise, it will
+configure Phabricator to connect to an external database. In the latter case, a
+MySQL database user will //not// be managed by this cookbook.
 
 Contributing
 ------------
@@ -61,4 +56,5 @@ License and Authors
 -------------------
 This cookbook is licensed under GPL version 2 or (at your option) any later version.
 
-Authors: Kim Tore Jensen &lt;kimtj@met.no&gt;, MET Norway
+* Kim Tore Jensen (kimtj@met.no), MET Norway
+* Andrew Mulholland (andrew.mulholland@aetion.com)
