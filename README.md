@@ -56,5 +56,7 @@ License and Authors
 -------------------
 This cookbook is licensed under GPL version 2 or (at your option) any later version.
 
-* Kim Tore Jensen (kimtj@met.no), MET Norway
+* Kim Tore Jensen (kimtj@met.no)
+* Martin Grønlien Pejcoch (mgp@met.no)
+* Michael Akinde (michael.akinde@met.no)
 * Andrew Mulholland (andrew.mulholland@aetion.com)
