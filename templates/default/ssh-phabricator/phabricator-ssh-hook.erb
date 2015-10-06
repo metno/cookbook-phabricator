@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+VCSUSER="#{node['phabricator']['vcsuser']"
+#
+# Path to Phabricator directory.
+ROOT="#{node['phabricator']['path']"
+
+if [ "$1" != "$VCSUSER" ];
+then
+  exit 1
+fi
+
+exec "$ROOT/bin/ssh-auth" $@

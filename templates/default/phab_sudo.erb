@@ -1,0 +1,6 @@
+# This file is managed by Chef.
+# Do NOT modify this file directly.
+
+<% @commands.each do |command| -%>
+<%= @sudoer %> ALL=(<%= @runas %>) <%= 'NOPASSWD:' if @nopasswd %><%=  'SETENV:' if @setenv %><%= command %>
+<% end -%>

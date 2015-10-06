@@ -1,0 +1,27 @@
+# ssh for VCS
+#
+# This OpenSSH server provides ssh access to VCS for Phabricator
+
+description "SSH-VCS server"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+respawn limit 10 5
+umask 022
+
+env SSH_SIGSTOP=1
+expect stop
+
+# 'sshd -D' leaks stderr and confuses things in conjunction with 'console log'
+console none
+
+pre-start script
+    test -x /usr/sbin/sshd || { stop; exit 0; }
+
+end script
+
+# if you used to set SSHD_OPTS in /etc/default/ssh, you can change the
+# 'exec' line here instead
+exec /usr/sbin/sshd -D -f /etc/ssh-phabricator/sshd_config
