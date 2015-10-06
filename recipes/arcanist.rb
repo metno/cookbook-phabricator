@@ -9,6 +9,10 @@
 # This recipe installs the Arcanist libraries for use by developers.
 #
 
+# Including Apt will run `apt-get update` to ensure against trying to
+# pull expired versions of packages.
+include_recipe 'apt'
+
 package 'php5-cli'
 package 'php5-curl'
 package 'git'
