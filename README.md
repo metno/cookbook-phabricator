@@ -51,18 +51,18 @@ If running Ubuntu 14.04, this recipe can also setup Phabricator for hosting repo
 over SSH. (It requires functionality in OpenSSH 6.2 or newer, which is not available for
 Ubuntu 12.04).
 
-If `node['phabricator']['repo_hosting_enabled']` is set to `true`, the cookbook will
+If `node['phabricator']['vcs_ssh']['hosting_enabled']` is set to `true`, the cookbook will
 set up the server for serving up VCS over SSH.
 Defaults to `false` to preserve behaviour with previous versions.
 
 It will setup a seperate daemon called `ssh-vcs`, which  is configured to listen on a
 different port to the standard system sshd, this is controlled via
-`default['phabricator']['ssh_vcs_port']` It defaults to `617`.
+`default['phabricator']['vcs_ssh']['port']` It defaults to `617`.
 
 This is a highly locked down SSH process following recommendations from upstream:
 [https://secure.phabricator.com/book/phabricator/article/diffusion_hosting/]
 
-The user used for VCS is controlled via `default['phabricator']['vcsuser']` and defaults
+The user used for VCS is controlled via `default['phabricator']['vcs_ssh']['user']` and defaults
 to `git`.
 
 When interacting with Diffusion over ssh the following is recommended in your `~/.ssh/config`:

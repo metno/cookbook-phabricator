@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-VCSUSER="<%= node['phabricator']['vcsuser'] %>"
+VCSUSER="<%= node['phabricator']['vcs_ssh']['user'] %>"
 #
 # Path to Phabricator directory.
 ROOT="<%= File.join(node['phabricator']['path'],'phabricator') %>"

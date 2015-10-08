@@ -1,7 +1,7 @@
 AuthorizedKeysCommand /usr/libexec/ssh-phabricator-hook
-AuthorizedKeysCommandUser <%= node['phabricator']['vcsuser'] %>
+AuthorizedKeysCommandUser <%= node['phabricator']['vcs_ssh']['user'] %>
 
-Port <%= node['phabricator']['ssh_vcs_port'] %>
+Port <%= node['phabricator']['vcs_ssh']['port'] %>
 Protocol 2
 PermitRootLogin no
 AllowAgentForwarding no

@@ -16,7 +16,9 @@ suites:
     attributes: {
         "phabricator": {
             "domain": "phabricator.example.com",
-            "repo_hosting_enabled": true
+            "vcs_ssh": {
+              "hosting_enabled": true
+            }
         },
         "authorization": {
             "sudo": {

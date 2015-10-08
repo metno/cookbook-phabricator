@@ -192,7 +192,7 @@ end
 # Only applicable on 14.04 or newer, due to need for AuthorizedKeysCommand which came in
 # OpenSSH 6.2.
 if node['platform_version'] >= '14.04'
-    if node['phabricator']['repo_hosting_enabled']
-        include_recipe 'phabricator::repo_hosting'
+    if node['phabricator']['vcs_ssh']['hosting_enabled']
+        include_recipe 'phabricator::vcs_ssh_hosting'
     end
 end
