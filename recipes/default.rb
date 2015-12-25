@@ -65,7 +65,7 @@ directory node['phabricator']['path'] do
     action :create
     user node['phabricator']['user']
     group node['phabricator']['group']
-    mode "0750"
+    mode "0755"
 end
 
 %w{ phabricator libphutil arcanist }.each do |repo|
