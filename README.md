@@ -60,3 +60,4 @@ This cookbook is licensed under GPL version 2 or (at your option) any later vers
 * Martin Grønlien Pejcoch (mgp@met.no)
 * Michael Akinde (michael.akinde@met.no)
 * Andrew Mulholland (andrew.mulholland@aetion.com)
+* Donald Guy (fawkes@mit.edu)
