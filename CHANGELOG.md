@@ -1,6 +1,15 @@
 Phabricator CHANGELOG
 =====================
 
+3.2.0
+-----
+- Run `apt::default` recipe when converging
+- Set permissions on install directory to 755
+
+3.1.0
+-----
+- Add node attribute `node['phabricator']['mysql_host']`, which will also determine whether or not to install MySQL locally.
+
 3.0.0
 -----
 - Consolidate PHP configuration into a single variable, really setting boolean variables
