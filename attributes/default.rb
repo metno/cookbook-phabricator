@@ -60,6 +60,7 @@ default['phabricator']['innodb_buffer_pool_size'] = mem.to_int
 
 # MySQL options
 default['phabricator']['mysql']['max_allowed_packet'] = 32*1024*1024
+default['phabricator']['mysql']['max_connections'] = 100000
 
 # Various config settings, feel free to expand with your own stuff.
 default['phabricator']['config'] = {
