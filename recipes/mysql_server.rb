@@ -41,7 +41,7 @@ mysql_config 'phabricator' do
     source 'phabricator.cnf.erb'
     instance 'default'
     action :create
-    notifies :restart, 'mysql_service[default]'
+    notifies :restart, 'mysql_service[default]', :immediately
 end
 
 mysql_database_user node['phabricator']['mysql_user'] do

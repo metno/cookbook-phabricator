@@ -75,7 +75,6 @@ end
         repository "https://github.com/phacility/#{repo}.git"
         revision node['phabricator']['revision'][repo]
         action :sync
-        notifies :run, "execute[upgrade_phabricator_databases]"
     end
 end
 
@@ -110,6 +109,7 @@ template '/etc/init/phd.conf' do
     owner 'root'
     group 'root'
     mode '0644'
+    notifies :restart, "service[phd]", :delayed
 end
 
 template "/etc/logrotate.d/phd" do
@@ -146,26 +146,15 @@ end
     end
 end
 
-execute "upgrade_phabricator_databases" do
-    command "true"
-    if node['phabricator']['storage_upgrade_done']
-        action :nothing
-    else
-        action :run
-    end
+execute "run_storage_upgrade" do
+    not_if { node['phabricator']['storage_upgrade_done'] == true }
     notifies :stop, "service[php-fpm]", :immediately
     notifies :stop, "service[phd]", :immediately
-    notifies :run, "execute[run_storage_upgrade]", :immediately
-    # Starting service phd intentionally omitted, due to a possible Chef bug.
-    # It is started by default, though, so no harm done.
-    notifies :start, "service[php-fpm]", :immediately
-end
-
-execute "run_storage_upgrade" do
+    notifies :start, "service[php-fpm]", :delayed
+    notifies :start, "service[phd]", :delayed
     command "#{node['phabricator']['path']}/phabricator/bin/storage upgrade --force"
     user node['phabricator']['user']
     group node['phabricator']['group']
-    action :nothing
 end
 
 node['phabricator']['config'].each do |key, value|
@@ -179,7 +168,7 @@ end
 service 'phd' do
     supports :status => true, :restart => true, :start => true, :stop => true
     provider Chef::Provider::Service::Upstart
-    action [:enable, :start]
+    action :enable
 end
 
 ruby_block 'set_storage_upgrade_done' do

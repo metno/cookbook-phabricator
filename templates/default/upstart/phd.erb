@@ -5,8 +5,13 @@
 description     "Phabricator daemon"
 author          "chef-client"
 
+<% if ['localhost', '127.0.0.1', '::1'].include?(node['phabricator']['mysql_host']) %>
 start on started mysql-default
 stop on stopping mysql-default
+<% else %>
+start on runlevel [2345]
+stop on runlevel [016]
+<% end %>
 
 setuid <%= node['phabricator']['user'] %>
 setgid <%= node['phabricator']['group'] %>
