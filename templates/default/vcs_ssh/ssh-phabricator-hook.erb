@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+VCSUSER="<%= node['phabricator']['vcs_ssh']['user'] %>"
+#
+# Path to Phabricator directory.
+ROOT="<%= File.join(node['phabricator']['path'],'phabricator') %>"
+
+if [ "$1" != "$VCSUSER" ];
+then
+  exit 1
+fi
+
+exec "$ROOT/bin/ssh-auth" $@

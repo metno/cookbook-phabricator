@@ -17,10 +17,11 @@ This cookbook has been tested on Ubuntu 12.04 and 14.04.
 - `nginx ~> 2.7`
 - `mysql ~> 6.0`
 - `database ~> 3.1`
+- `openssl ~> 4.4`
 
 Attributes
 ----------
-See `attributes/default.rb`.
+See `attributes/default.rb` and `attributes/repo_hosting.rb`.
 
 Usage
 -----
@@ -38,10 +39,41 @@ Just include `phabricator` in your node's `run_list`:
 MySQL Installation
 ------------------
 
-If `node['phabricator]['mysql_host']` is set to `localhost`, the cookbook will
+If `node['phabricator']['mysql_host']` is set to `localhost`, the cookbook will
 install and configure the MySQL server appropriately. Otherwise, it will
 configure Phabricator to connect to an external database. In the latter case, a
 MySQL database user will //not// be managed by this cookbook.
+
+Repository Hosting
+------------------
+
+If running Ubuntu 14.04, this recipe can also setup Phabricator for hosting repositories
+over SSH. (It requires functionality in OpenSSH 6.2 or newer, which is not available for
+Ubuntu 12.04).
+
+If `node['phabricator']['vcs_ssh']['hosting_enabled']` is set to `true`, the cookbook will
+set up the server for serving up VCS over SSH.
+Defaults to `false` to preserve behaviour with previous versions.
+
+It will setup a seperate daemon called `ssh-vcs`, which  is configured to listen on a
+different port to the standard system sshd, this is controlled via
+`default['phabricator']['vcs_ssh']['port']` It defaults to `617`.
+
+This is a highly locked down SSH process following recommendations from upstream:
+[https://secure.phabricator.com/book/phabricator/article/diffusion_hosting/]
+
+The user used for VCS is controlled via `default['phabricator']['vcs_ssh']['user']` and defaults
+to `git`.
+
+When interacting with Diffusion over ssh the following is recommended in your `~/.ssh/config`:
+
+```
+Host phabricator.example.com
+  User git
+  Port 617
+  Compression yes
+```
+
 
 Contributing
 ------------

@@ -15,7 +15,16 @@ suites:
       - recipe[phabricator::default]
     attributes: {
         "phabricator": {
-            "domain": "phabricator.example.com"
+            "domain": "phabricator.example.com",
+            "vcs_ssh": {
+              "hosting_enabled": true
+            }
+        },
+        "authorization": {
+            "sudo": {
+                "users": ["vagrant"],
+               "passwordless": true
+            }
         }
     }
   - name: arcanist

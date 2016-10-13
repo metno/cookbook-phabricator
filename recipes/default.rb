@@ -83,7 +83,7 @@ directory node['phabricator']['repository_path'] do
     action :create
     user node['phabricator']['user']
     group node['phabricator']['group']
-    mode "0750"
+    mode "0755"
 end
 
 # Set up file storage
@@ -185,5 +185,14 @@ end
 ruby_block 'set_storage_upgrade_done' do
     block do
         node.set['phabricator']['storage_upgrade_done'] = true
+    end
+end
+
+# Setup ssh repo hosting if we want it!
+# Only applicable on 14.04 or newer, due to need for AuthorizedKeysCommand which came in
+# OpenSSH 6.2.
+if node['platform_version'] >= '14.04'
+    if node['phabricator']['vcs_ssh']['hosting_enabled']
+        include_recipe 'phabricator::vcs_ssh_hosting'
     end
 end

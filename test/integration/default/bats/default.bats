@@ -22,3 +22,21 @@
         [ $status -eq 0 ]
     }
 }
+
+@test "SSHD VCS is running" {
+    if [ $(lsb_release -r | awk '{print $2}') == "12.04" ]; then
+      skip "SSH hosting not supported on 12.04"
+    fi
+
+    run service ssh-vcs status
+    [ $status -eq 0 ]
+}
+
+@test "SSHd for VCS is listening" {
+    if [ $(lsb_release -r | awk '{print $2}') == "12.04" ]; then
+      skip "SSH hosting not supported on 12.04"
+    fi
+
+    run sh -c "netstat -nlp |grep :617"
+    [ $status -eq 0 ]
+}
